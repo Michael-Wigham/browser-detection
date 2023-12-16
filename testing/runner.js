@@ -3,7 +3,7 @@ const path = require('path');
 const zlib = require('zlib');
 const retrocycle = require('../utils/retrocycle');
 
-const BrowserDetection = require('../dist/browser-detection');
+const BrowserDetection = require('../dist/index.js').BrowserDetection;
 const TestCases = require('./test-cases.js');
 
 TestCases.forEach(testCase => {
@@ -18,7 +18,6 @@ TestCases.forEach(testCase => {
 
   it(`Testing ${id}`, () => {
     BrowserDetection.helpers.windowObject = window;
-
     expect(BrowserDetection()).toEqual(expected);
   });
 });

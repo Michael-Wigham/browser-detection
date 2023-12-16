@@ -9,7 +9,7 @@ import { detectSafari } from './desktop/safari';
 import { detectChrome } from './desktop/chrome';
 import { detectChromeMobile } from './mobile/chrome-mobile';
 
-export default function BrowserDetection() {
+export function BrowserDetection() {
   return (
     ($.isMobile() && detectChromeMobile()) ||
     detectOpera() ||
