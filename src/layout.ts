@@ -1,14 +1,16 @@
 import $ from './helpers';
 
-export var LAYOUT_TRIDENT = 'Trident';
-export var LAYOUT_EDGE = 'EdgeHTML';
-export var LAYOUT_GECKO = 'Gecko';
-export var LAYOUT_WEBKIT = 'WebKit';
-export var LAYOUT_BLINK = 'Blink';
-export var LAYOUT_KHTML = 'KHTML';
-export var LAYOUT_PRESTO = 'Presto';
+import { Layout } from './types';
 
-export function detectLayout() {
+export var LAYOUT_TRIDENT: Layout = 'Trident';
+export var LAYOUT_EDGE: Layout = 'EdgeHTML';
+export var LAYOUT_GECKO: Layout = 'Gecko';
+export var LAYOUT_WEBKIT: Layout = 'WebKit';
+export var LAYOUT_BLINK: Layout = 'Blink';
+export var LAYOUT_KHTML: Layout = 'KHTML';
+export var LAYOUT_PRESTO: Layout = 'Presto';
+
+export function detectLayout(): Layout {
   // EdgeHTML || Trident
   if ($.hasStyle('msScrollLimit') || $.hasStyle('behavior')) {
     // TODO: there was `CSS.supports('(-ms-ime-align:auto)')`

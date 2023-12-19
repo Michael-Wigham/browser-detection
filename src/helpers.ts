@@ -15,8 +15,10 @@ var helpers = {
     path = path.split('.');
 
     while ((segment = path.shift())) {
-      if (!(segment in target)) {
-        return;
+      if (target != null) {
+        if (!(segment in target)) {
+          return;
+        }
       }
 
       try {

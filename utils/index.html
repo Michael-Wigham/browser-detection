@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body onload="let w_obj = dumpObject(window, 'window');console.log(w_obj);download('browserDOM.json',JSON.stringify(w_obj, null , 2))">
+    <script>
+        function isPromise(p) {
+            return p && Object.prototype.toString.call(p) === "[object Promise]";
+        }
+        function download(filename, text) {
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', filename);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
+
+        function dumpObject(input, key) {
+            const output = {};
+            const propertyReferences = new WeakMap();
+            const stack = [[output, key, input[key], '$["window"]']];
+
+            let state;
+
+            while ((state = stack.pop())) {
+                const [root, key, value, path] = state;
+
+                // Limit for nested objects
+                if ((path.match(/\[/g) || []).length > 10) {
+                    output[key] = null;
+                    continue;
+                }
+
+                // Handle null values
+                if (value === null) {
+                    root[key] = null;
+                    continue;
+                }
+
+                // Handle undefined values
+                if (typeof value === 'undefined' || value === '$undefined') {
+                    root[key] = '$undefined';
+                    continue;
+                }
+
+                // Handle arrays
+                if (Array.isArray(value)) {
+                    root[key] = [];
+
+                    value.forEach((element, i) => {
+                        stack.unshift([root[key], i, element, `${path}[${i}]`]);
+                    });
+
+                    continue;
+                }
+
+                // Handle objects and functions
+                if (typeof value === 'function') {
+
+                    root[key] = {};
+                    Object.getOwnPropertyNames(value).reduce((acc, O_key) => {
+                        if (O_key != 'caller' && O_key != 'callee' && O_key != 'arguments') {
+                            if (typeof value[O_key] === "function" || typeof value[O_key] === "object") {
+                                stack.unshift([
+                                    root[key],
+                                    O_key,
+                                    value[O_key],
+                                    `${path}[${JSON.stringify(O_key)}]`
+                                ]);
+                            }
+                            else {
+                                root[key][O_key] = value[O_key]
+                            }
+                        }
+                    }, {})
+                    //root[key] = { name: value["name"], length: value["length"] };
+                    continue;
+                }
+                if (typeof value === 'object') {
+                    // Prevent circular references
+                    const propertyPath = propertyReferences.get(value);
+
+                    if (propertyPath !== undefined) {
+                        root[key] = { $ref: propertyPath };
+                        continue;
+                    }
+
+                    propertyReferences.set(value, path);
+
+                    root[key] = {};
+
+                    var aa = []
+                    for (var m in value) {
+                        aa.push(m)
+                    }
+                    const merge = (a, b, predicate = (a, b) => a === b) => {
+                        const c = [...a]; // copy to avoid side effects
+                        // add all items from B to copy C if they're not already present
+                        b.forEach((bItem) => (c.some((cItem) => predicate(bItem, cItem)) ? null : c.push(bItem)))
+                        return c;
+                    }
+
+                    if (merge(aa, Object.getOwnPropertyNames(value)) != 0) {
+                        merge(aa, Object.getOwnPropertyNames(value)).forEach((O_key) => {
+
+                            try {
+                                if (!isPromise(value[O_key].catch(() => { }))) {
+                                    stack.unshift([
+                                        root[key],
+                                        O_key,
+                                        value[O_key],
+                                        `${path}[${JSON.stringify(O_key)}]`
+                                    ]);
+                                }
+                                else {
+                                    root[key][O_key] = {}
+                                }
+                            } catch {
+                                try {
+                                    stack.unshift([
+                                        root[key],
+                                        O_key,
+                                        value[O_key],
+                                        `${path}[${JSON.stringify(O_key)}]`
+                                    ]);
+                                } catch {
+                                    root[key][O_key] = '$undefined'
+                                }
+                            }
+                        }, {})
+                    } else {
+                        Object.getOwnPropertyNames(value.__proto__).reduce((acc, O_key) => {
+                            stack.unshift([
+                                root[key],
+                                O_key,
+                                value[O_key],
+                                `${path}[${JSON.stringify(O_key)}]`
+                            ]);
+                        }, {})
+                    }
+                    continue;
+                }
+
+                // Handle other types
+                root[key] = value;
+            }
+
+            return output;
+        };
+
+    </script>
+</body>
+
+</html>

@@ -1,13 +1,15 @@
 import $ from './helpers';
 
-export var BROWSER_MACOS = 'Mac OS';
-export var BROWSER_IOS = 'iOS';
-export var BROWSER_WINDOWS = 'Windows';
-export var BROWSER_ANDROID = 'Android';
-export var BROWSER_LINUX = 'Linux';
-export var BROWSER_OPENBSD = 'OpenBSD';
-export var BROWSER_UNIX = 'Unix';
-export var BROWSER_SOLARIS = 'Solaris';
+import { osDetection, OS } from './types';
+
+var BROWSER_MACOS: OS = 'Mac OS';
+var BROWSER_IOS: OS = 'iOS';
+var BROWSER_WINDOWS: OS = 'Windows';
+var BROWSER_ANDROID: OS = 'Android';
+var BROWSER_LINUX: OS = 'Linux';
+var BROWSER_OPENBSD: OS = 'OpenBSD';
+var BROWSER_UNIX: OS = 'Unix';
+var BROWSER_SOLARIS: OS = 'Solaris';
 
 var WINDOWS_NT_VERSION_MAP = {
   '5.1': 'XP',
@@ -15,13 +17,14 @@ var WINDOWS_NT_VERSION_MAP = {
   '6.0': 'Vista',
   '6.1': 7,
   '6.2': 8,
+  '6.3': 8.1,
   '10.0': 10
 };
 
-export function detectOSfromAppVersion() {
+export function detectOSfromAppVersion(): osDetection {
   var appVersion = $.getFeature('navigator.appVersion');
 
-  var os;
+  var os: OS;
   var osVersion;
 
   var match;
@@ -60,7 +63,7 @@ export function detectOSfromAppVersion() {
   };
 }
 
-function detectOSfromOscpu() {
+function detectOSfromOscpu(): osDetection {
   var oscpu = $.getFeature('navigator.oscpu');
 
   // Only Firefox supports this property
@@ -68,7 +71,7 @@ function detectOSfromOscpu() {
     return;
   }
 
-  var os;
+  var os: OS;
   var osVersion;
 
   var match;
@@ -98,10 +101,10 @@ function detectOSfromOscpu() {
   };
 }
 
-export function detectOSfromPlatform() {
+export function detectOSfromPlatform(): osDetection {
   var platform = $.getFeature('navigator.platform');
 
-  var os;
+  var os: OS;
 
   if (/Macintosh|MacIntel|MacPPC|Mac68K/.test(platform)) {
     os = BROWSER_MACOS;
@@ -125,7 +128,7 @@ export function detectOSfromPlatform() {
   };
 }
 
-export function detectOS() {
+export function detectOS(): osDetection {
   return (
     detectOSfromAppVersion() || detectOSfromOscpu() || detectOSfromPlatform()
   );

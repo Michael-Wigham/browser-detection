@@ -1,8 +1,10 @@
 import $ from '../helpers';
 import { detectChromium } from './chromium';
 
-export function detectChrome() {
-  var browser = 'Chrome';
+import { browserDetection, Browsers } from '../types';
+
+export function detectChrome(): browserDetection {
+  var browser: Browsers = 'Chrome';
 
   // Chrome is based on Chromium
   var chromiumFeatures = detectChromium();

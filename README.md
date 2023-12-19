@@ -1,6 +1,6 @@
-# Paguro's Browser Detection [![CircleCI](https://circleci.com/gh/paguro/browser-detection/tree/master.svg?style=svg)](https://circleci.com/gh/paguro/browser-detection/tree/master)
+# Michael-Wigham's Fork of Paguro's Browser Detection
 
-[![npm version](https://badge.fury.io/js/%40paguro%2Fbrowser-detection.svg)](https://badge.fury.io/js/%40paguro%2Fbrowser-detection)
+[![npm version](https://badge.fury.io/js/%40wig12%2Fbrowser-detection.svg)](https://badge.fury.io/js/%40wig12%2Fbrowser-detection)
 
 JavaScript library for detecting browsers and platforms using feature testing.
 
@@ -16,13 +16,13 @@ of Browser Object Model (BOM).
 To add _Paguro's Browser Detection_ library to your project:
 
 ```
-$ yarn add @paguro/browser-detection
+$ npm add @wig12/browser-detection
 ```
 
 ## Usage
 
 ```js
-import BrowserDetection from '@paguro/browser-detection'; // ES6
+import BrowserDetection from '@wig12/browser-detection'; // ES6
 
 const detectedBrowser = BrowserDetection();
 console.log(detectedBrowser);
@@ -43,16 +43,16 @@ console.log(detectedBrowser);
 
 ### Browsers
 
-| Browser            | Latest version |
-|--------------------|:--------------:|
-| Internet Explorer  |       11       |
-| Edge               |     44 / 80    |
-| Chrome             |     40 / 80    |
-| Chromium           |     40 / 80    |
-| Firefox            |       74       |
-| Safari             |       13       |
-| Opera              |       66       |
-| Brave              |       1.3      |
+| Browser            | Detectable versions |
+|--------------------|:-------------------:|
+| Internet Explorer  |          11         |
+| Edge               |    44 / 80 & 120    |
+| Chrome             |    40 / 80 & 120    |
+| Chromium           |       40 / 80       |
+| Firefox            | 42 / 74 & 117 / 120 |
+| Safari             |       8 / 13        |
+| Opera              |         66          |
+| Brave              |         1.3         |
 
 ### Layout engines
 
@@ -82,9 +82,15 @@ console.log(detectedBrowser);
 
 - The fields `layoutVersion` and `osVersion` are not populated yet
 
-## Roadmap for Release 0.2.0
+## Future Features
 
-- [ ] Support for mobile browsers (most popular ones)
+- [ ] Support for mobile browsers
+  - [ ] Chrome Android
+  - [ ] Firefox for Android
+  - [ ] Opera Android
+  - [ ] Safari on iOS
+  - [ ] Samsung Internet
+  - [ ] WebView Android
 - [ ] Populate the field `layoutVersion`
 - [ ] Populate the field `osVersion`
 - [ ] Sandbox to prevent feature spoofing
@@ -93,6 +99,7 @@ console.log(detectedBrowser);
 
 - **Giacomo Trudu** - [Wicker25](https://github.com/Wicker25)
 - **Giuseppe Trotta** - [ohpe](https://github.com/ohpe)
+- **Michael Wigham** - [Michael-Wigham](https://github.com/Michael-Wigham)
 
 See also the list of [contributors](https://github.com/paguro/browser-detection/graphs/contributors)
 who participated in this project.

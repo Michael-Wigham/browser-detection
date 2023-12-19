@@ -1,12 +1,24 @@
 import $ from '../helpers';
 import { detectOS } from '../os';
-import { LAYOUT_EDGE, LAYOUT_BLINK, detectLayout } from '../layout';
-import { detectChromium } from './chromium';
+import { LAYOUT_EDGE, detectLayout } from '../layout';
+import { detectChromium, detectChromiumVersion } from './chromium';
 
-export function detectEdge() {
-  var plugins = $.getFeature('navigator.plugins');
+import { browserDetection, Browsers } from '../types';
+let vMap: { feature: string; version: number }[] = [
+  { feature: 'AuthenticatorAssertionResponse', version: 44 },
+  { feature: 'PaymentRequestUpdateEvent.prototype.bubbles', version: 42 },
+  { feature: 'AbortController', version: 41 },
+  {
+    feature: 'CanvasRenderingContext2D.prototype.imageSmoothingEnabled',
+    version: 40
+  },
+  { feature: 'AudioContext.prototype.close', version: 38 },
+  { feature: 'AudioBuffer.prototype.copyFromChannel', version: 25 },
+  { feature: 'ANGLE_instanced_arrays.drawArraysInstancedANGLE', version: 20 }
+];
 
-  var browser = 'Edge';
+export function detectEdge(): browserDetection {
+  var browser: Browsers = 'Edge';
   var browserVersion;
   var layout = detectLayout();
   var os = detectOS();
@@ -22,28 +34,23 @@ export function detectEdge() {
 
   // Edge with EdgeHTML
   if (layout === LAYOUT_EDGE) {
-    if ($.hasFeature('AuthenticatorAssertionResponse')) {
-      browserVersion = 44;
-    } else if ($.hasFeature('PaymentRequestUpdateEvent.prototype.bubbles')) {
-      browserVersion = 42;
-    } else if ($.hasFeature('AbortController')) {
-      browserVersion = 41;
-    } else if (
-      $.hasFeature('CanvasRenderingContext2D.prototype.imageSmoothingEnabled')
-    ) {
-      browserVersion = 40;
-    } else if ($.hasFeature('AudioContext.prototype.close')) {
-      browserVersion = 38;
-    } else if ($.hasFeature('AudioBuffer.prototype.copyFromChannel')) {
-      browserVersion = 25;
-    } else if (
-      $.hasFeature('ANGLE_instanced_arrays.drawArraysInstancedANGLE')
-    ) {
-      browserVersion = 20;
+    for (let value of vMap) {
+      if ($.hasFeature(value.feature)) {
+        browserVersion = value.version;
+        break;
+      }
     }
   }
 
   if (browserVersion) {
+    return Object.assign(os, {
+      browser: browser,
+      browserVersion: browserVersion,
+      layout: layout,
+      layoutVersion: undefined
+    });
+  } else if ($.getFeature('navigator.appVersion').match('Edg')) {
+    browserVersion = detectChromiumVersion();
     return Object.assign(os, {
       browser: browser,
       browserVersion: browserVersion,

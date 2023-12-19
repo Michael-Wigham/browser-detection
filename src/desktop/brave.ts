@@ -1,6 +1,8 @@
 import $ from '../helpers';
 import { detectChromium } from './chromium';
 
+import { browserDetection, Browsers } from '../types';
+
 var BRAVE_VERSION_MAP = {
   72: 0.6,
   73: 0.61,
@@ -13,10 +15,10 @@ var BRAVE_VERSION_MAP = {
   80: 1.3
 };
 
-export function detectBrave() {
+export function detectBrave(): browserDetection {
   var plugins = $.getFeature('navigator.plugins');
 
-  var browser = 'Brave';
+  var browser: Browsers = 'Brave';
   var browserVersion;
 
   // Brave is based on Chromium

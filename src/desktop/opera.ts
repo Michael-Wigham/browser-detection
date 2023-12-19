@@ -1,10 +1,12 @@
 import $ from '../helpers';
 import { detectChromium } from './chromium';
 
-export function detectOpera() {
+import { browserDetection, Browsers } from '../types';
+
+export function detectOpera(): browserDetection {
   var appVersion = $.getFeature('navigator.appVersion');
 
-  var browser = 'Opera';
+  var browser: Browsers = 'Opera';
 
   if (!appVersion.match(/Opera|OPR\//)) {
     return;

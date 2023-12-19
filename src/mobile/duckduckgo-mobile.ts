@@ -2,8 +2,10 @@ import $ from '../helpers';
 import { detectOS } from '../os';
 import { LAYOUT_WEBKIT, detectLayout } from '../layout';
 
-export function detectDuckDuckGoMobile() {
-  var browser = 'Duck Duck Go';
+import { browserDetection, Browsers } from '../types';
+
+export function detectDuckDuckGoMobile(): browserDetection {
+  var browser: Browsers = 'Duck Duck Go';
   var browserVersion;
   var layout = detectLayout();
   var os = detectOS();
@@ -22,13 +24,11 @@ export function detectDuckDuckGoMobile() {
   }
 
   if (browserVersion) {
-    return {
+    return Object.assign(os, {
       browser: browser,
       browserVersion: browserVersion,
       layout: layout,
-      layoutVersion: undefined,
-      os: os,
-      osVersion: undefined
-    };
+      layoutVersion: undefined
+    });
   }
 }

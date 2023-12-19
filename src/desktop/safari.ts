@@ -2,8 +2,10 @@ import $ from '../helpers';
 import { detectOS } from '../os';
 import { LAYOUT_WEBKIT, detectLayout } from '../layout';
 
-export function detectSafari() {
-  var browser = 'Safari';
+import { browserDetection, Browsers } from '../types';
+
+export function detectSafari(): browserDetection {
+  var browser: Browsers = 'Safari';
   var browserVersion;
   var layout = detectLayout();
   var os = detectOS();

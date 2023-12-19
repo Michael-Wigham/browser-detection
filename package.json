@@ -13,7 +13,7 @@
     "dist"
   ],
   "scripts": {
-    "clean": "rm -f dist",
+    "clean": "rm -r dist",
     "build": "tsc",
     "prettify": "prettier --single-quote --write './*.js' 'src/**/*.ts' 'scripts/**/*.js' 'testing/**/*.js'",
     "bom-diff": "node ./scripts/bom-diff.js",

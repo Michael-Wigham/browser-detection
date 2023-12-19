@@ -2,8 +2,10 @@ import $ from '../helpers';
 import { detectOS } from '../os';
 import { LAYOUT_TRIDENT, detectLayout } from '../layout';
 
-export function detectInternetExplorer() {
-  var browser = 'IE';
+import { browserDetection, Browsers } from '../types';
+
+export function detectInternetExplorer(): browserDetection {
+  var browser: Browsers = 'IE';
   var browserVersion;
   var layout = detectLayout();
   var os = detectOS();

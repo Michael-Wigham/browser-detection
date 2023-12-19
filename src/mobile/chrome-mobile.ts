@@ -3,8 +3,10 @@ import { detectOS } from '../os';
 import { detectChromiumVersion } from '../desktop/chromium';
 import { LAYOUT_WEBKIT, LAYOUT_BLINK, detectLayout } from '../layout';
 
-export function detectChromeMobile() {
-  var browser = 'Chrome Mobile';
+import { browserDetection, Browsers } from '../types';
+
+export function detectChromeMobile(): browserDetection {
+  var browser: Browsers = 'Chrome Mobile';
   var layout = detectLayout();
   var os = detectOS();
 

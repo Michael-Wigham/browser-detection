@@ -2,8 +2,58 @@ import $ from '../helpers';
 import { detectOS } from '../os';
 import { LAYOUT_GECKO, detectLayout } from '../layout';
 
-export function detectFirefox() {
-  var browser = 'Firefox';
+import { browserDetection, Browsers } from '../types';
+
+let vMap: { feature: string; version: number }[] = [
+  { feature: 'ToggleEvent', version: 120 },
+  { feature: 'document.head.role', version: 119 },
+  { feature: 'document.body.style.font-synthesis-position', version: 118 },
+  { feature: 'RTCEncodedAudioFrame', version: 117 },
+  { feature: 'ServiceWorkerRegistration.prototype.active', version: 74 },
+  {
+    feature: 'document.documentElement.style.overscroll-behavior-block',
+    version: 73
+  },
+  { feature: 'FormDataEvent', version: 72 },
+  { feature: 'MathMLElement', version: 71 },
+  { feature: 'AudioContext.prototype.baseLatency', version: 70 },
+  { feature: 'Blob.prototype.arrayBuffer', version: 69 },
+  {
+    feature: 'AudioContext.prototype.createMediaStreamTrackSource',
+    version: 68
+  },
+  { feature: 'InputEvent.prototype.data', version: 67 },
+  { feature: 'HTMLSlotElement.prototype.assignedElements', version: 66 },
+  { feature: 'HTMLMarqueeElement', version: 65 },
+  { feature: 'Document.prototype.exitFullscreen', version: 64 },
+  { feature: 'Animation.prototype.effect', version: 63 },
+  { feature: 'DOMPointReadOnly.prototype.toJSON', version: 62 },
+  { feature: 'String.prototype.trimStart', version: 61 },
+  { feature: 'Animation.prototype.updatePlaybackRate', version: 60 },
+  { feature: 'Animation.prototype.pending', version: 59 },
+  { feature: 'FontFace.prototype.display', version: 58 },
+  { feature: 'AbortController', version: 57 },
+  { feature: 'Document.prototype.onvisibilitychange', version: 56 },
+  { feature: 'RTCRtpSender.prototype.getStats', version: 55 },
+  { feature: 'URL.prototype.toJSON', version: 54 },
+  { feature: 'BaseAudioContext.prototype.state', version: 53 },
+  { feature: 'ConstantSourceNode', version: 52 },
+  {
+    feature: 'CanvasRenderingContext2D.prototype.imageSmoothingEnabled',
+    version: 51
+  },
+  { feature: 'Object.getOwnPropertyDescriptors', version: 50 },
+  { feature: 'CanvasRenderingContext2D.prototype.filter', version: 49 },
+  { feature: 'Animation', version: 48 },
+  { feature: 'IDBKeyRange.prototype.includes', version: 47 },
+  { feature: 'History.prototype.scrollRestoration', version: 46 },
+  { feature: 'Element.prototype.getAttributeNames', version: 45 },
+  { feature: 'URLSearchParams.prototype.entries', version: 44 },
+  { feature: 'HTMLCanvasElement.prototype.captureStream', version: 43 },
+  { feature: 'Reflect', version: 42 }
+];
+export function detectFirefox(): browserDetection {
+  var browser: Browsers = 'Firefox';
   var browserVersion;
   var layout = detectLayout();
   var os = detectOS();
@@ -20,78 +70,11 @@ export function detectFirefox() {
     return;
   }
 
-  if ($.hasFeature('ServiceWorkerRegistration.prototype.active')) {
-    browserVersion = 74;
-  } else if ($.hasStyle('overscroll-behavior-block')) {
-    browserVersion = 73;
-  } else if ($.hasFeature('FormDataEvent')) {
-    browserVersion = 72;
-  } else if ($.hasFeature('MathMLElement')) {
-    browserVersion = 71;
-  } else if ($.hasFeature('AudioContext.prototype.baseLatency')) {
-    browserVersion = 70;
-  } else if ($.hasFeature('Blob.prototype.arrayBuffer')) {
-    browserVersion = 69;
-  } else if (
-    $.hasFeature('AudioContext.prototype.createMediaStreamTrackSource')
-  ) {
-    browserVersion = 68;
-  } else if ($.hasFeature('InputEvent.prototype.data')) {
-    browserVersion = 67;
-  } else if ($.hasFeature('HTMLSlotElement.prototype.assignedElements')) {
-    browserVersion = 66;
-  } else if ($.hasFeature('HTMLMarqueeElement')) {
-    browserVersion = 65;
-  } else if ($.hasFeature('Document.prototype.exitFullscreen')) {
-    browserVersion = 64;
-  } else if ($.hasFeature('Animation.prototype.effect')) {
-    browserVersion = 63;
-  } else if ($.hasFeature('DOMPointReadOnly.prototype.toJSON')) {
-    browserVersion = 62;
-  } else if ($.hasFeature('String.prototype.trimStart')) {
-    browserVersion = 61;
-  } else if ($.hasFeature('Animation.prototype.updatePlaybackRate')) {
-    browserVersion = 60;
-  } else if ($.hasFeature('Animation.prototype.pending')) {
-    browserVersion = 59;
-  } else if ($.hasFeature('FontFace.prototype.display')) {
-    browserVersion = 58;
-  } else if ($.hasFeature('AbortController')) {
-    browserVersion = 57;
-  } else if ($.hasFeature('Document.prototype.onvisibilitychange')) {
-    browserVersion = 56;
-  } else if ($.hasFeature('RTCRtpSender.prototype.getStats')) {
-    browserVersion = 55;
-  } else if ($.hasFeature('URL.prototype.toJSON')) {
-    browserVersion = 54;
-  } else if ($.hasFeature('BaseAudioContext.prototype.state')) {
-    browserVersion = 53;
-  } else if ($.hasFeature('ConstantSourceNode')) {
-    browserVersion = 52;
-  } else if (
-    $.hasFeature('CanvasRenderingContext2D.prototype.imageSmoothingEnabled')
-  ) {
-    browserVersion = 51;
-  } else if ($.hasFeature('Object.getOwnPropertyDescriptors')) {
-    browserVersion = 50;
-  } else if ($.hasFeature('CanvasRenderingContext2D.prototype.filter')) {
-    browserVersion = 49;
-  } else if ($.hasFeature('Animation')) {
-    browserVersion = 48;
-  } else if ($.hasFeature('IDBKeyRange.prototype.includes')) {
-    browserVersion = 47;
-  } else if ($.hasFeature('History.prototype.scrollRestoration')) {
-    browserVersion = 46;
-  } else if ($.hasFeature('Element.prototype.getAttributeNames')) {
-    browserVersion = 45;
-  } else if ($.hasFeature('URLSearchParams.prototype.entries')) {
-    browserVersion = 44;
-  } else if ($.hasFeature('HTMLCanvasElement.prototype.captureStream')) {
-    browserVersion = 43;
-  } else if ($.hasFeature('Reflect')) {
-    browserVersion = 42;
-  } else {
-    return;
+  for (let value of vMap) {
+    if ($.hasFeature(value.feature)) {
+      browserVersion = value.version;
+      break;
+    }
   }
 
   return Object.assign(os, {

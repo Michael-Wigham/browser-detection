@@ -9,7 +9,9 @@ import { detectSafari } from './desktop/safari';
 import { detectChrome } from './desktop/chrome';
 import { detectChromeMobile } from './mobile/chrome-mobile';
 
-export function BrowserDetection() {
+import { browserDetection, Browsers } from './types';
+
+export function BrowserDetection(): browserDetection {
   return (
     ($.isMobile() && detectChromeMobile()) ||
     detectOpera() ||
@@ -24,3 +26,5 @@ export function BrowserDetection() {
 }
 
 BrowserDetection.helpers = $;
+
+export { browserDetection, Browsers };
