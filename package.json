@@ -1,10 +1,7 @@
 {
   "name": "@wig12/browser-detection",
-  "version": "0.3.0",
-  "author": "Paguro Team",
-  "contributors": [
-    "Michael Wigham"
-  ],
+  "version": "0.3.1",
+  "author": "Michael Wigham",
   "license": "MIT",
   "description": "JavaScript library for detecting browsers and platforms using feature testing.",
   "main": "dist/index.js",

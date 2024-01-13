@@ -1,4 +1,4 @@
-# Michael-Wigham's Fork of Paguro's Browser Detection
+# Michael-Wigham's Browser Detection
 
 [![npm version](https://badge.fury.io/js/%40wig12%2Fbrowser-detection.svg)](https://badge.fury.io/js/%40wig12%2Fbrowser-detection)
 
